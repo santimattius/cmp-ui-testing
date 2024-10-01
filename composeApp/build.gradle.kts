@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
@@ -10,6 +13,8 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
     androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        instrumentedTestVariant.sourceSetTree.set(KotlinSourceSetTree.test)
         compilations.all {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_11.toString()
@@ -70,6 +75,14 @@ kotlin {
             api(libs.koin.compose)
             api(libs.koin.composeViewModel)
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
+        }
+
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
@@ -97,6 +110,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
@@ -114,6 +128,8 @@ android {
     }
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
+        debugImplementation(libs.compose.ui.test.manifest)
+        androidTestImplementation(libs.compose.ui.test.junit4.android)
     }
 }
 
