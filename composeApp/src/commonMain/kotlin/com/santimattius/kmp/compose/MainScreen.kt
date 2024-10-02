@@ -18,7 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.santimattius.kmp.compose.core.ui.components.AppBar
+
+object MainScreenTags{
+    const val INCREMENT_BUTTON = "IncrementButton"
+    const val COUNTER_TEXT = "CounterText"
+    const val HINT_TEXT = "HintText"
+}
 
 @Composable
 fun MainScreen() {
@@ -29,6 +36,7 @@ fun MainScreen() {
         },
         floatingActionButton = {
             FloatingActionButton(
+                modifier = Modifier.testTag(MainScreenTags.INCREMENT_BUTTON),
                 onClick = {
                     incrementCounter += 1
                 },
@@ -46,8 +54,12 @@ fun MainScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(text = "You have pushed the button this many times")
             Text(
+                modifier = Modifier.testTag(MainScreenTags.HINT_TEXT),
+                text = "You have pushed the button this many times"
+            )
+            Text(
+                modifier = Modifier.testTag(MainScreenTags.COUNTER_TEXT),
                 text = "$incrementCounter",
                 style = MaterialTheme.typography.displayLarge
             )
