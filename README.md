@@ -1,6 +1,8 @@
 # UI Testing in Compose Multiplatform
 
 This is a Compose Multiplatform project targeting Android, iOS.
+![1](https://github.com/user-attachments/assets/58c392bb-6d37-4b7c-92a5-a3606f0b6ef0)
+
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
